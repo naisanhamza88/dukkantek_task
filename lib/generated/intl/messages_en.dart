@@ -35,6 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Enter Your Password"),
         "place_your_finge": MessageLookupByLibrary.simpleMessage(
             "Place your finger on the device sensor to verify your identity"),
+        "something_went_wrong_please_try_again":
+            MessageLookupByLibrary.simpleMessage(
+                "Something went wrong, please try again later"),
         "use_account_password":
             MessageLookupByLibrary.simpleMessage("Use Account password"),
         "username": MessageLookupByLibrary.simpleMessage("User Name"),

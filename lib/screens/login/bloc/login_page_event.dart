@@ -43,3 +43,43 @@ class Login extends LoginPageEvent {
   @override
   String toString() => 'CheckPassword' + password;
 }
+
+class GoogleLogin extends LoginPageEvent {
+  final BuildContext context;
+
+  const GoogleLogin(this.context);
+
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'GoogleLogin';
+}
+
+
+class FingerprintScanned extends LoginPageEvent {
+  final BuildContext context;
+  const FingerprintScanned({required this.context});
+  @override
+  List<Object> get props => [];
+
+  @override
+  String toString() => 'FingerprintScanned';
+}
+
+
+class LoginFailureEvent extends LoginPageEvent {
+
+  const LoginFailureEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoginErrorEvent extends LoginPageEvent {
+  final String error;
+  const LoginErrorEvent({required this.error});
+
+  @override
+  List<Object> get props => [];
+}

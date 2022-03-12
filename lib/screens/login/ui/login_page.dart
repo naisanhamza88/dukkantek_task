@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:dukkantek_task/base/base_state.dart';
 import 'package:dukkantek_task/config/ui_config.dart';
 import 'package:dukkantek_task/screens/login/bloc/login_page_bloc.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,14 @@ import 'package:local_auth/local_auth.dart';
 import '../../../common/ui.dart';
 import '../../../generated/l10n.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends BasePage {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  BasePageState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends BasePageState<LoginPage> {
   final _bloc = LoginPageBloc();
 
   // declare controllers of textFormFields to listen for
@@ -34,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _isAuthenticated = false;
   bool isBiometricAvailable = false;
+
 
   @override
   void initState() {
@@ -57,130 +59,181 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsetsDirectional.only(
-                top: 0.2.sh, end: 0.1.sw, start: 0.1.sw, bottom: 0.2.sw),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Center(
-                  child: Image(
-                    image: AssetImage('assets/images/logo.png'),
+    return BlocListener<LoginPageBloc, LoginPageState>(
+        listener: (context, state) {
+      if (state is LoginFailure) {
+        showToast(context, S.of(context).something_went_wrong_please_try_again);
+      }
+      if (state is LoginError) {
+        showToast(context, state.error);
+      }
+    }, child: BlocBuilder<LoginPageBloc, LoginPageState>(
+            builder: (BuildContext context, LoginPageState state) {
+      return Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
+        body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsetsDirectional.only(
+                  top: 0.2.sh, end: 0.1.sw, start: 0.1.sw, bottom: 0.2.sw),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Center(
+                    child: Image(
+                      image: AssetImage('assets/images/logo.png'),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 0.1.sh,
-                ),
-                Text(S.of(context).username,
-                    style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            ?.copyWith(fontSize: 35.sp) ??
-                        Theme.of(context).textTheme.headline4),
+                  SizedBox(
+                    height: 0.1.sh,
+                  ),
+                  Text(S.of(context).username,
+                      style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              ?.copyWith(fontSize: 35.sp) ??
+                          Theme.of(context).textTheme.headline4),
 
-                // username textField
-                StreamBuilder<String>(
-                    stream: _bloc.streamUserName,
-                    builder: (context, snapshot) {
-                      String error = '';
-                      if (snapshot.hasError) {
-                        userNameError = true;
-                        error = snapshot.error.toString();
-                      } else {
-                        userNameError = false;
-                      }
-                      return getTextField(
-                        context: context,
-                        icon: const Icon(
-                          Icons.person,
-                          color: mainColor,
-                        ),
-                        controller: _usernameController,
-                        hint: S.of(context).username_hint,
-                        errorMsg: error,
-                      );
-                    }),
-
-                Text(S.of(context).password,
-                    style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            ?.copyWith(fontSize: 35.sp) ??
-                        Theme.of(context).textTheme.headline4),
-
-                // password textField
-                StreamBuilder<String>(
-                    stream: _bloc.streamPassword,
-                    builder: (context, snapshot) {
-                      String error = '';
-                      if (snapshot.hasError) {
-                        error = snapshot.error.toString();
-                        passwordError = true;
-                      } else {
-                        passwordError = false;
-                      }
-                      return getTextField(
+                  // username textField
+                  StreamBuilder<String>(
+                      stream: _bloc.streamUserName,
+                      builder: (context, snapshot) {
+                        String error = '';
+                        if (snapshot.hasError) {
+                          userNameError = true;
+                          error = snapshot.error.toString();
+                        } else {
+                          userNameError = false;
+                        }
+                        return getTextField(
                           context: context,
-                          controller: _passwordController,
                           icon: const Icon(
-                            Icons.password,
+                            Icons.person,
                             color: mainColor,
                           ),
-                          onIconPressed: showHidePassword,
-                          hint: S.of(context).password_hint,
+                          controller: _usernameController,
+                          hint: S.of(context).username_hint,
                           errorMsg: error,
-                          obscureText: !_passwordVisible);
-                    }),
-                // LoginButton
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    child: Text(S.of(context).login),
-                    onPressed: () {
-                      _onLoginButtonPressed();
+                        );
+                      }),
+
+                  Text(S.of(context).password,
+                      style: Theme.of(context)
+                              .textTheme
+                              .headline4
+                              ?.copyWith(fontSize: 35.sp) ??
+                          Theme.of(context).textTheme.headline4),
+
+                  // password textField
+                  StreamBuilder<String>(
+                      stream: _bloc.streamPassword,
+                      builder: (context, snapshot) {
+                        String error = '';
+                        if (snapshot.hasError) {
+                          error = snapshot.error.toString();
+                          passwordError = true;
+                        } else {
+                          passwordError = false;
+                        }
+                        return getTextField(
+                            context: context,
+                            controller: _passwordController,
+                            icon: const Icon(
+                              Icons.password,
+                              color: mainColor,
+                            ),
+                            onIconPressed: showHidePassword,
+                            hint: S.of(context).password_hint,
+                            errorMsg: error,
+                            obscureText: !_passwordVisible);
+                      }),
+                  // LoginButton
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      child: Text(S.of(context).login),
+                      onPressed: () {
+                        _onLoginButtonPressed();
+                      },
+                    ),
+                  ),
+                  InkWell(
+                    child: Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        decoration: const BoxDecoration(
+                          borderRadius: border,
+                          color: mainColor,
+                        ),
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              height: 48.0,
+                              width: 30.0,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/google_logo.png'),
+                                    fit: BoxFit.cover),
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            SizedBox(width: 16,),
+                            Text(
+                              'Sign in with Google',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  ?.copyWith(
+                                      fontSize: 35.sp, color: Colors.white),
+                            ),
+                          ],
+                        ))),
+                    onTap: () async {
+                      BlocProvider.of<LoginPageBloc>(context).add(
+                          GoogleLogin(context));
                     },
                   ),
-                ),
-
-                Padding(
-                  padding: EdgeInsets.only(top: 0.1.sh),
-                  child: isBiometricAvailable
-                      ? Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              _onFingerprintScanned();
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.fingerprint,
-                                  color: mainColor,
-                                  size: 50.0,
-                                ),
-                                Container(
-                                  height: 10.h,
-                                ),
-                                Text(S.of(context).using_biometrics_credentials,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        ?.copyWith(fontSize: 35.sp)),
-                              ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 0.1.sh),
+                    child: isBiometricAvailable
+                        ? Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                _onFingerprintScanned();
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.fingerprint,
+                                    color: mainColor,
+                                    size: 50.0,
+                                  ),
+                                  Container(
+                                    height: 10.h,
+                                  ),
+                                  Text(
+                                      S
+                                          .of(context)
+                                          .using_biometrics_credentials,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline4
+                                          ?.copyWith(fontSize: 35.sp)),
+                                ],
+                              ),
                             ),
-                          ),
-                        )
-                      : Container(),
-                ),
-              ],
-            ),
-          )),
-    );
+                          )
+                        : Container(),
+                  ),
+                ],
+              ),
+            )),
+      );
+    }));
   }
 
   Future<bool> _isBiometricAvailable() async {
@@ -200,8 +253,8 @@ class _LoginPageState extends State<LoginPage> {
   void _onFingerprintScanned() async {
     await _checkBiometric();
     if (_isAuthenticated) {
-      // BlocProvider.of<LoginBloc>(context)
-      //     .add(FingerprintScanned(context: context));
+      BlocProvider.of<LoginPageBloc>(context)
+          .add(FingerprintScanned(context: context));
     }
   }
 
@@ -251,6 +304,10 @@ class _LoginPageState extends State<LoginPage> {
         _passwordController.text.isNotEmpty) {
       BlocProvider.of<LoginPageBloc>(context).add(
           Login(_usernameController.text, _passwordController.text, context));
+    }else{
+      showToast(context, 'Fill Data Plz');
     }
   }
+
+
 }

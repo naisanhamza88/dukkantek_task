@@ -169,6 +169,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Something went wrong, please try again later`
+  String get something_went_wrong_please_try_again {
+    return Intl.message(
+      'Something went wrong, please try again later',
+      name: 'something_went_wrong_please_try_again',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

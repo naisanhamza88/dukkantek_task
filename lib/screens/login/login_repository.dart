@@ -21,7 +21,7 @@ class LoginRepository extends BaseRepository {
       loginResponse = MainResponse.fromJson(responseJson);
       return loginResponse;
     } catch (error) {
-      log('subscriptionResponse Exception Error : ${error.toString()}');
+      log('login Exception Error : ${error.toString()}');
       return loginResponse;
     }
   }

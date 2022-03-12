@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "954181359534",
+    "project_id": "dukkantektask",
+    "storage_bucket": "dukkantektask.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:954181359534:android:e1824f9a752498156c5a3f",
+        "android_client_info": {
+          "package_name": "com.hamza.dukkantektask.dukkantek_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "954181359534-bboefkuqt8b4tslvjjdtaiocrdjkkjtk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hamza.dukkantektask.dukkantek_task",
+            "certificate_hash": "a17a86d3132ae5026dc8a53cc11f17b384f13d94"
+          }
+        },
+        {
+          "client_id": "954181359534-a2k4vre2f1dbr6mf77crdgv508v2tg0i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBid_ynItrvcu5RjvQiKdIFkH9fh4wU28k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "954181359534-a2k4vre2f1dbr6mf77crdgv508v2tg0i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,5 +11,6 @@
   "fingerprint_setting": "Fingerprint is not set up on your device.\nGo to Settings > Security to add your fingerprint.",
   "go_to_setting": "Go to Settings",
   "login": "Login",
-  "no_internet_connection": "Check your internet connection"
+  "no_internet_connection": "Check your internet connection",
+  "something_went_wrong_please_try_again": "Something went wrong, please try again later"
 }

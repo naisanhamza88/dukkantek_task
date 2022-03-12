@@ -47,7 +47,8 @@ mixin Utility {
                 Expanded(
                   child: Text(
                     msg,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headline6?.copyWith
+                      (fontSize: 35.sp,color: Colors.white),
                   ),
                 ),
               ],
