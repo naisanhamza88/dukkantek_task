@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "username": "User Name",
+  "username_hint": "Enter Your User Name",
+  "password": "Password",
+  "password_hint": "Enter Your Password",
+  "fingerprint_verification": "Please you need to login with username for the first time",
+  "using_biometrics_credentials": "Press here to log in using your biometric credentials",
+  "place_your_finge": "Place your finger on the device sensor to verify your identity",
+  "use_account_password": "Use Account password",
+  "fingerprint_setting": "Fingerprint is not set up on your device.\nGo to Settings > Security to add your fingerprint.",
+  "go_to_setting": "Go to Settings",
+  "login": "Login",
+  "no_internet_connection": "Check your internet connection"
+}
